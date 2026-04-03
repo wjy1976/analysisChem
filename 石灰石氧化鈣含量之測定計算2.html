@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>石灰石中氧化鈣測定 </title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Noto Sans', system-ui, 'Microsoft JhengHei', sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 16px;
+            color: #1e2a3e;
+            line-height: 1.4;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1e3c72, #2b4c7c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin: 0 0 0.25rem 0;
+            word-break: break-word;
+        }
+
+        .sub {
+            color: #2c5a7a;
+            border-left: 4px solid #2c7da0;
+            padding-left: 14px;
+            margin: 8px 0 20px 0;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: #f8fafc;
+            padding: 14px 18px;
+            border-bottom: 1px solid #e2edf2;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #1e4a76;
+            color: white;
+            font-size: 0.7rem;
+            border-radius: 30px;
+            padding: 3px 10px;
+            font-weight: 500;
+        }
+
+        .card-body {
+            padding: 18px;
+        }
+
+        .method-grid {
+            display: block; /* 手機版強制單列 */
+        }
+
+        .calc-panel {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #e9edf2;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .calc-panel h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 12px 0;
+            border-left: 4px solid #2c7da0;
+            padding-left: 12px;
+            color: #0f3b5c;
+        }
+
+        .input-group {
+            margin-bottom: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-group label {
+            width: 130px;
+            font-weight: 500;
+            color: #2c3e4e;
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            background: #fefefe;
+            font-family: inherit;
+        }
+
+        .inline-hint {
+            font-size: 0.7rem;
+            color: #5e7a93;
+            margin-left: 6px;
+        }
+
+        .info-line {
+            background: #f1f9fe;
+            border-radius: 16px;
+            padding: 10px 12px;
+            margin: 10px 0 12px;
+            font-size: 0.85rem;
+            border-left: 3px solid #2c7da0;
+        }
+
+        .result-area {
+            background: #eef3fa;
+            border-radius: 18px;
+            padding: 12px 14px;
+            margin-top: 16px;
+        }
+
+        .result-line {
+            font-size: 0.95rem;
+            margin: 6px 0;
+            border-bottom: 1px dashed #bdd3e6;
+            padding-bottom: 4px;
+            word-break: break-word;
+        }
+
+        .value-highlight {
+            font-weight: 800;
+            color: #1e5a74;
+            background: #e0f0f8;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            display: inline-block;
+        }
+
+        .formula {
+            font-size: 0.7rem;
+            color: #2c7a4d;
+            background: #e9f5ef;
+            padding: 4px 8px;
+            border-radius: 12px;
+            margin-top: 8px;
+            display: inline-block;
+            word-break: break-word;
+        }
+
+        .sub-section {
+            background: #fafdff;
+            border-radius: 16px;
+            padding: 10px;
+            margin-top: 12px;
+            border: 1px solid #e2edf2;
+        }
+
+        .footnote {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #4b6f8c;
+            margin-top: 20px;
+            border-top: 1px solid #cbdde9;
+            padding-top: 16px;
+        }
+
+        /* 手機專屬調整 */
+        @media (max-width: 640px) {
+            body {
+                padding: 12px;
+            }
+            .input-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .input-group label {
+                width: 100%;
+                margin-bottom: 4px;
+            }
+            .input-group input {
+                width: 100%;
+            }
+            .card-header h2 {
+                font-size: 1.3rem;
+            }
+            .calc-panel h3 {
+                font-size: 1.2rem;
+            }
+            .result-line {
+                font-size: 0.85rem;
+            }
+            .value-highlight {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* 平板與桌面維持雙欄 */
+        @media (min-width: 860px) {
+            .method-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+            .card-body {
+                padding: 24px;
+            }
+            .input-group {
+                flex-direction: row;
+            }
+            .input-group label {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🧪 石灰石中氧化鈣含量測定</h1>
+    <div class="sub">📱 | 附計算公式</div>
+
+    <div class="method-grid">
+        <!-- ========= 氧化還原法 ========= -->
+        <div class="card">
+            <div class="card-header"><h2>⚡ 氧化還原法 <span class="badge">KMnO₄</span></h2></div>
+            <div class="card-body">
+                <div class="calc-panel">
+                    <h3>📌 一、KMnO₄ 標定</h3>
+                    <div class="input-group"><label>草酸鈉重量 (g) :</label><input type="number" id="kmno4_na2c2o4" step="any" value="0.2000"></div>
+                    <div class="info-line">💡 <strong>預估滴定體積</strong>：<span id="estimated_volume" class="value-highlight">---</span> mL <span class="formula">公式：V預估 = (W×400)/2.68</span></div>
+                    <div class="input-group"><label>滴定體積 V<sub>S</sub> (mL) :</label><input type="number" id="kmno4_vs" step="any" value="38.20"></div>
+                    <div class="input-group"><label>空白體積 V<sub>B</sub> (mL) :</label><input type="number" id="kmno4_vb" step="any" value="0.10"></div>
+                    <div class="result-area">
+                        <div class="result-line">📈 KMnO₄ 標定濃度 (M) = <span id="kmno4_molar" class="value-highlight">---</span> mol/L</div>
+                        <div class="formula">公式：M = [W<sub>Na₂C₂O₄</sub> × (2/5) × 1000] / [(V<sub>S</sub>-V<sub>B</sub>) × 133.98]</div>
+                    </div>
+                </div>
+                <div class="calc-panel">
+                    <h3>📌 二、試樣測定 (單次)</h3>
+                    <div class="input-group"><label>KMnO₄ 濃度 (M) :</label><input type="number" id="kmno4_used_m" step="any" value="0.0200"><span class="inline-hint"></span></div>
+                    <div class="input-group"><label>試樣重量 (g) :</label><input type="number" id="kmno4_sample_w" step="any" value="0.5023"></div>
+                    <div class="input-group"><label>滴定體積 (mL) :</label><input type="number" id="kmno4_titer_vol" step="any" value="24.65"></div>
+                    <div class="result-area">
+                        <div class="result-line">🧱 CaO 重量 = <span id="kmno4_cao_weight" class="value-highlight">---</span> g</div>
+                        <div class="result-line">🧪 CaO 含量 (%) = <span id="kmno4_cao_single" class="value-highlight">---</span> %</div>
+                        <div class="formula">公式：CaO(g) = V(mL) × M × 0.5608 &nbsp; | &nbsp; CaO% = (CaO重量 / 試樣重) × 100</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========= EDTA 法 ========= -->
+        <div class="card">
+            <div class="card-header"><h2>⚗️ EDTA 法 <span class="badge">直接滴定</span></h2></div>
+            <div class="card-body">
+                <div class="calc-panel">
+                    <h3>📌 一、EDTA 標定</h3>
+                    <div class="input-group"><label>碳酸鈣重量 (g) :</label><input type="number" id="edta_caco3_w" step="any" value="0.2012"></div>
+                    <div class="input-group"><label>定容總體積 (mL) :</label><input type="number" id="edta_total_vol" step="any" value="100.0"></div>
+                    <div class="result-area">
+                        <div class="result-line">📊 鈣標準液濃度 (M) = <span id="edta_ca_std" class="value-highlight">---</span> mol/L</div>
+                        <div class="formula">公式：C<sub>Ca</sub> = (W<sub>CaCO₃</sub> / 100.08) × (1000 / V<sub>總</sub>)</div>
+                    </div>
+                    <div class="input-group"><label>分取體積 (mL) :</label><input type="number" id="edta_aliquot" step="any" value="25.00"></div>
+                    <div class="input-group"><label>EDTA 滴定體積 (mL) :</label><input type="number" id="edta_titer_vol" step="any" value="24.30"></div>
+                    <div class="result-area">
+                        <div class="result-line">📐 EDTA 莫耳濃度 = <span id="edta_molar" class="value-highlight">---</span> mol/L</div>
+                        <div class="result-line">🧪 相當 CaO 濃度 = <span id="edta_cao_mgml" class="value-highlight">---</span> mg/mL</div>
+                        <div class="formula">公式：C<sub>EDTA</sub> = (C<sub>Ca</sub> × V<sub>分取</sub>) / V<sub>EDTA</sub> &nbsp; | &nbsp; 相當CaO(mg/mL) = C<sub>EDTA</sub> × 56.08</div>
+                    </div>
+                </div>
+                <div class="calc-panel">
+                    <h3>📌 二、試樣測定 (平行試驗)</h3>
+                    <div class="input-group"><label>相當 CaO 濃度 (mg/mL) :</label><input type="number" id="edta_cao_used" step="any" value="11.20"><span class="inline-hint"></span></div>
+                    <div class="sub-section">
+                        <strong>第一次試驗</strong>
+                        <div class="input-group"><label>試樣重量 (g) :</label><input type="number" id="edta_sample_w1" step="any" value="0.5034"></div>
+                        <div class="input-group"><label>EDTA 滴定體積 (mL) :</label><input type="number" id="edta_vol1" step="any" value="18.75"></div>
+                        <div class="result-line">🧱 CaO 重量 = <span id="edta_cao_weight1" class="value-highlight">---</span> g &nbsp;|&nbsp; 含量 = <span id="edta_cao1" class="value-highlight">---</span> %</div>
+                    </div>
+                    <div class="sub-section">
+                        <strong>第二次試驗</strong>
+                        <div class="input-group"><label>試樣重量 (g) :</label><input type="number" id="edta_sample_w2" step="any" value="0.5021"></div>
+                        <div class="input-group"><label>EDTA 滴定體積 (mL) :</label><input type="number" id="edta_vol2" step="any" value="18.69"></div>
+                        <div class="result-line">🧱 CaO 重量 = <span id="edta_cao_weight2" class="value-highlight">---</span> g &nbsp;|&nbsp; 含量 = <span id="edta_cao2" class="value-highlight">---</span> %</div>
+                    </div>
+                    <div class="result-area">
+                        <div class="result-line">📊 平均 CaO 含量 = <span id="edta_avg" class="value-highlight">---</span> % (平均重量 = <span id="edta_avg_weight" class="value-highlight">---</span> g)</div>
+                        <div class="result-line">📉 相對差異 (%) = <span id="edta_rd" class="value-highlight">---</span> %</div>
+                        <div class="formula">公式：CaO(g) = (V(mL) × 相當CaO濃度 × 10) / 1000 &nbsp; | &nbsp; 相對差異 = |A-B|/平均值×100%</div>
+                    </div>
+                </div>
+                <div class="calc-panel">
+                    <h3>📌 三、查核試樣回收率</h3>
+                    <div class="input-group"><label>查核試樣重量 (g) :</label><input type="number" id="edta_qc_w" step="any" value="0.5020"></div>
+                    <div class="input-group"><label>EDTA 滴定體積 (mL) :</label><input type="number" id="edta_qc_vol" step="any" value="18.90"></div>
+                    <div class="input-group"><label>理論 CaO 參考含量 (%) :</label><input type="number" id="edta_theory" step="any" value="56.03"></div>
+                    <div class="result-area">
+                        <div class="result-line">📌 <strong>查核試樣 CaO 計算</strong>：</div>
+                        <div class="result-line">🧱 CaO 重量 = <span id="edta_qc_weight" class="value-highlight">---</span> g</div>
+                        <div class="result-line">🧪 實測 CaO 含量 (%) = <span id="edta_qc_percent" class="value-highlight">---</span> %</div>
+                        <div class="result-line">🎯 回收率 = <span id="edta_recovery" class="value-highlight">---</span> %</div>
+                        <div class="formula">公式：回收率 (%) = (實測 CaO% / 理論 CaO%) × 100%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card"><div class="card-body">
+        <h3 style="margin-top:0;">📖 完整公式總覽</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between;">
+            <div><strong>🔹 氧化還原法</strong><br>
+            標定: M = [W×0.4×1000]/[(V<sub>S</sub>-V<sub>B</sub>)×133.98]<br>
+            測定: CaO(g) = V×M×0.5608 &nbsp; CaO% = (CaO重量/試樣重)×100
+            </div>
+            <div><strong>🔸 EDTA法</strong><br>
+            C<sub>Ca</sub> = (W<sub>CaCO₃</sub>/100.08)×(1000/V<sub>總</sub>)<br>
+            C<sub>EDTA</sub> = (C<sub>Ca</sub>×V<sub>分取</sub>)/V<sub>EDTA</sub><br>
+            相當CaO = C<sub>EDTA</sub>×56.08 (mg/mL)<br>
+            CaO(g) = (V×相當CaO×10)/1000
+            </div>
+            <div><strong>✅ 品管</strong><br>
+            相對差異 = |A-B|/平均×100%<br>
+            回收率 = (實測/理論)×100%
+            </div>
+        </div>
+    </div></div>
+    <div class="footnote">
+        
+    </div>
+</div>
+
+<script>
+    // 四捨五入至四位小數
+    function round4(val) {
+        if (isNaN(val)) return NaN;
+        return Math.round(val * 10000) / 10000;
+    }
+    function toFourStr(val) {
+        if (isNaN(val)) return '---';
+        return round4(val).toFixed(4);
+    }
+
+    // ========== 氧化還原法 ==========
+    const na2c2o4 = document.getElementById('kmno4_na2c2o4');
+    const vs = document.getElementById('kmno4_vs');
+    const vb = document.getElementById('kmno4_vb');
+    const estSpan = document.getElementById('estimated_volume');
+    const molarSpan = document.getElementById('kmno4_molar');
+    const usedM = document.getElementById('kmno4_used_m');
+    const sw = document.getElementById('kmno4_sample_w');
+    const volKmno4 = document.getElementById('kmno4_titer_vol');
+    const weightSpan = document.getElementById('kmno4_cao_weight');
+    const percentSpan = document.getElementById('kmno4_cao_single');
+
+    function updateKmno4() {
+        let w = parseFloat(na2c2o4.value);
+        let vS = parseFloat(vs.value);
+        let vB = parseFloat(vb.value);
+        if (!isNaN(w) && w>0 && !isNaN(vS) && !isNaN(vB) && (vS-vB)>0) {
+            let net = round4(vS - vB);
+            let M = (w * 0.4 * 1000) / (net * 133.98);
+            M = round4(M);
+            molarSpan.innerText = toFourStr(M);
+            usedM.value = toFourStr(M);
+        } else {
+            molarSpan.innerText = '---';
+            usedM.value = '';
+        }
+        if (!isNaN(w) && w>0) {
+            let est = (w * 400) / 2.68;
+            estSpan.innerText = toFourStr(est);
+        } else estSpan.innerText = '---';
+        let M2 = parseFloat(usedM.value);
+        let wSample = parseFloat(sw.value);
+        let vT = parseFloat(volKmno4.value);
+        if (!isNaN(M2) && !isNaN(wSample) && !isNaN(vT) && wSample>0 && vT>0) {
+            let caoG = round4(vT * M2 * 0.5608);
+            let pct = round4((caoG / wSample) * 100);
+            weightSpan.innerText = toFourStr(caoG) + ' g';
+            percentSpan.innerText = toFourStr(pct) + ' %';
+        } else {
+            weightSpan.innerText = '---';
+            percentSpan.innerText = '---';
+        }
+    }
+    const kmno4Inputs = [na2c2o4, vs, vb, usedM, sw, volKmno4];
+    kmno4Inputs.forEach(inp => inp.addEventListener('input', updateKmno4));
+    updateKmno4();
+
+    // ========== EDTA 法 ==========
+    const edtaW = document.getElementById('edta_caco3_w');
+    const edtaTotal = document.getElementById('edta_total_vol');
+    const edtaAliquot = document.getElementById('edta_aliquot');
+    const edtaTiter = document.getElementById('edta_titer_vol');
+    const caStdSpan = document.getElementById('edta_ca_std');
+    const edtaMolarSpan = document.getElementById('edta_molar');
+    const edtaCaoMgSpan = document.getElementById('edta_cao_mgml');
+    const edtaCaoUsed = document.getElementById('edta_cao_used');
+    const w1 = document.getElementById('edta_sample_w1');
+    const v1 = document.getElementById('edta_vol1');
+    const w2 = document.getElementById('edta_sample_w2');
+    const v2 = document.getElementById('edta_vol2');
+    const weight1Span = document.getElementById('edta_cao_weight1');
+    const pct1Span = document.getElementById('edta_cao1');
+    const weight2Span = document.getElementById('edta_cao_weight2');
+    const pct2Span = document.getElementById('edta_cao2');
+    const avgSpan = document.getElementById('edta_avg');
+    const avgWeightSpan = document.getElementById('edta_avg_weight');
+    const rdSpan = document.getElementById('edta_rd');
+    const qcW = document.getElementById('edta_qc_w');
+    const qcVol = document.getElementById('edta_qc_vol');
+    const theory = document.getElementById('edta_theory');
+    const qcWeightSpan = document.getElementById('edta_qc_weight');
+    const qcPctSpan = document.getElementById('edta_qc_percent');
+    const recSpan = document.getElementById('edta_recovery');
+
+    function updateEdtaAll() {
+        let wCa = parseFloat(edtaW.value);
+        let totalV = parseFloat(edtaTotal.value);
+        if (!isNaN(wCa) && !isNaN(totalV) && totalV>0 && wCa>0) {
+            let Ca_std_raw = (wCa / 100.08) * (1000 / totalV);
+            let Ca_std = round4(Ca_std_raw);
+            caStdSpan.innerText = toFourStr(Ca_std) + ' mol/L';
+            let aliquot = parseFloat(edtaAliquot.value);
+            let titer = parseFloat(edtaTiter.value);
+            if (!isNaN(aliquot) && !isNaN(titer) && titer>0 && aliquot>0) {
+                let C_EDTA_raw = (Ca_std * aliquot) / titer;
+                let C_EDTA = round4(C_EDTA_raw);
+                edtaMolarSpan.innerText = toFourStr(C_EDTA) + ' mol/L';
+                let Cao_mg_raw = C_EDTA * 56.08;
+                let Cao_mg = round4(Cao_mg_raw);
+                edtaCaoMgSpan.innerText = toFourStr(Cao_mg) + ' mg/mL';
+                edtaCaoUsed.value = toFourStr(Cao_mg);
+            } else {
+                edtaMolarSpan.innerText = '---';
+                edtaCaoMgSpan.innerText = '---';
+                edtaCaoUsed.value = '';
+            }
+        } else {
+            caStdSpan.innerText = '---';
+            edtaMolarSpan.innerText = '---';
+            edtaCaoMgSpan.innerText = '---';
+            edtaCaoUsed.value = '';
+        }
+
+        let cao_mg = parseFloat(edtaCaoUsed.value);
+        if (isNaN(cao_mg)) cao_mg = NaN;
+
+        let w1v = parseFloat(w1.value), v1v = parseFloat(v1.value);
+        let w2v = parseFloat(w2.value), v2v = parseFloat(v2.value);
+        if (!isNaN(cao_mg) && !isNaN(w1v) && !isNaN(v1v) && !isNaN(w2v) && !isNaN(v2v) && w1v>0 && w2v>0 && v1v>0 && v2v>0) {
+            let caoG1 = round4((v1v * cao_mg * 10) / 1000);
+            let pct1 = round4((caoG1 / w1v) * 100);
+            let caoG2 = round4((v2v * cao_mg * 10) / 1000);
+            let pct2 = round4((caoG2 / w2v) * 100);
+            weight1Span.innerText = toFourStr(caoG1) + ' g';
+            pct1Span.innerText = toFourStr(pct1) + ' %';
+            weight2Span.innerText = toFourStr(caoG2) + ' g';
+            pct2Span.innerText = toFourStr(pct2) + ' %';
+            let avgPct = round4((pct1 + pct2) / 2);
+            let avgW = round4((caoG1 + caoG2) / 2);
+            let rd = round4((Math.abs(pct1 - pct2) / avgPct) * 100);
+            avgSpan.innerText = toFourStr(avgPct) + ' %';
+            avgWeightSpan.innerText = toFourStr(avgW) + ' g';
+            rdSpan.innerText = toFourStr(rd) + ' %';
+        } else {
+            weight1Span.innerText = '---'; pct1Span.innerText = '---';
+            weight2Span.innerText = '---'; pct2Span.innerText = '---';
+            avgSpan.innerText = '---'; avgWeightSpan.innerText = '---'; rdSpan.innerText = '---';
+        }
+
+        let qcWv = parseFloat(qcW.value);
+        let qcVolv = parseFloat(qcVol.value);
+        let theoryV = parseFloat(theory.value);
+        if (!isNaN(cao_mg) && !isNaN(qcWv) && !isNaN(qcVolv) && !isNaN(theoryV) && qcWv>0 && qcVolv>0 && theoryV>0) {
+            let qcG = round4((qcVolv * cao_mg * 10) / 1000);
+            let qcPct = round4((qcG / qcWv) * 100);
+            let rec = round4((qcPct / theoryV) * 100);
+            qcWeightSpan.innerText = toFourStr(qcG) + ' g';
+            qcPctSpan.innerText = toFourStr(qcPct) + ' %';
+            recSpan.innerText = toFourStr(rec) + ' %';
+        } else {
+            qcWeightSpan.innerText = '---';
+            qcPctSpan.innerText = '---';
+            recSpan.innerText = '---';
+        }
+    }
+
+    const edtaInputs = [edtaW, edtaTotal, edtaAliquot, edtaTiter, edtaCaoUsed,
+                        w1, v1, w2, v2, qcW, qcVol, theory];
+    edtaInputs.forEach(inp => inp.addEventListener('input', updateEdtaAll));
+    updateEdtaAll();
+</script>
+</body>
+</html>
