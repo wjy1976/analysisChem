@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>總磷之比色定量｜完整計算（品管合併＋另類計算式）</title>
+    <title>總磷之比色定量｜完整計算（所有參數即時連動）</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -123,7 +123,7 @@
 <body>
 <div class="container">
     <h1>🧪 總磷之比色定量｜完整計算表</h1>
-    <div class="sub">📐 包含標準配製、檢量線、試樣溶液、品管項目（空白/確認/查核回收/添加回收）、另類計算式</div>
+    <div class="sub">📐 所有參數皆可編輯，計算結果即時連動更新</div>
 
     <!-- ========= 1. 標準溶液配製 ========= -->
     <div class="section">
@@ -131,11 +131,11 @@
         <table>
             <thead><th>項目</th><th>數值</th><th>單位</th><th>公式／結果</th></thead>
             <tbody>
-                <tr><td>KH₂PO₄ 秤取重量</td><td><input type="number" id="kh2po4_w" step="any" value="0.1068"></td><td>g</td><td rowspan="4">儲備液體積 <input type="number" id="stock_vol_ml" step="any" value="500.0" style="width:80px;"> mL</td></tr>
+                <tr><td>KH₂PO₄ 秤取重量</td><td><input type="number" id="kh2po4_w" step="any" value="0.1068"></td><td>g</td><td rowspan="4">儲備液體積 <input type="number" id="stock_vol_ml" step="any" value="500.0" style="width:80px;"> mL</td> </tr>
                 <tr><td>P 原子量</td><td>30.97</td><td>g/mol</td></tr>
                 <tr><td>KH₂PO₄ 分子量</td><td>136.09</td><td>g/mol</td></tr>
                 <tr><td><strong>儲備液 P 濃度</strong></td><td><span id="stock_conc" class="result-highlight">---</span></td><td>mg P/L</td></tr>
-                <tr><td>取儲備液體積</td><td><input type="number" id="std_take" step="any" value="5.0"></td><td>mL</td><td rowspan="2">稀釋至 <input type="number" id="std_dilute" step="any" value="250.0" style="width:80px;"> mL</td></tr>
+                <tr><td>取儲備液體積</td><td><input type="number" id="std_take" step="any" value="5.0"></td><td>mL</td><td rowspan="2">稀釋至 <input type="number" id="std_dilute" step="any" value="250.0" style="width:80px;"> mL</td> </tr>
                 <tr><td><strong>標準溶液 P 濃度</strong></td><td><span id="std_conc" class="result-highlight">---</span></td><td>mg P/L</td></tr>
             </tbody>
         </table>
@@ -254,43 +254,38 @@
                 <tr><td>添加回收率 (%)</td><td class="formula">(添加後總質量 - 原質量) / 添加質量 × 100%</td><td><span id="spike_recovery" class="result-highlight">---</span> %</td></tr>
             </tbody>
         </table>
-        <div class="formula">空白試樣吸光度固定為 0.004，截距與斜率取自檢量線迴歸。</div>
+        <div class="formula">空白試樣吸光度固定為 0.004 (可編輯)，截距與斜率取自檢量線迴歸。</div>
     </div>
 
-    <!-- ========= 5. 另類計算式 (完全依照用戶給定公式) ========= -->
+    <!-- ========= 5. 另類計算式 (所有參數動態讀取) ========= -->
     <div class="section">
         <div class="section-title">❺ 另類計算式</div>
+        
+        <div class="step-box">🔹 查核試樣直接計算 (所有參數皆從下方欄位讀取)</div>
         <div class="flex-row">
-            <span>查核試樣直接計算：</span>
             <span>吸光度 <input type="number" id="alt_qc_abs" step="any" value="0.192"></span>
             <span>空白 <input type="number" id="alt_blank" step="any" value="0.004"></span>
-            <span>截距 <span id="alt_intercept_display">---</span></span>
-            <span>斜率 <span id="alt_slope_display">---</span></span>
-        </div>
-        <div class="flex-row">
             <span>查核試樣重量 <input type="number" id="alt_qc_w" step="any" value="0.1072"> g</span>
             <span>查核理論值 <input type="number" id="alt_qc_theory" step="any" value="7.58"> % P</span>
-            <span>稀釋倍數因子: 250/15.0 = <span id="dil_factor_display">---</span></span>
         </div>
-        <div class="step-box">
-            🔹 <strong>查核試樣直接計算公式 (完全依照您的算式)</strong><br>
-            ((吸光度 - 空白 - 截距) / 斜率) × (1/1000000) × (250/15.0) × (1/查核重) × 100%
+        <div class="flex-row">
+            <span>稀釋因子分子 (稀釋定容體積) <input type="number" id="alt_dil_numerator" step="any" value="250.0"> mL</span>
+            <span>稀釋因子分母 (取液體積) <input type="number" id="alt_dil_denominator" step="any" value="15.0"> mL</span>
+            <span>稀釋因子 = <span id="alt_dil_factor" class="result-highlight">---</span></span>
         </div>
         <table>
             <thead><th>項目</th><th>計算公式</th><th>結果</th></thead>
             <tbody>
                 <tr><td>查核試樣直接計算 (% P)</td>
-                    <td class="formula">((0.192-0.004-截距)/斜率) × (1/1000000) × (250/15.0) × (1/0.1072) × 100%</td>
+                    <td class="formula">((吸光度 - 空白 - 截距)/斜率) × (1/1000000) × (稀釋因子) × (1/查核重) × 100%</td>
                     <td><span id="alt_qc_pct" class="result-highlight">---</span> % P</td></tr>
                 <tr><td>查核試樣回收率</td>
                     <td class="formula">實測值 / 理論值 × 100%</td>
                     <td><span id="alt_qc_recovery" class="result-highlight">---</span> %</td></tr>
             </tbody>
         </table>
-        <div class="step-box">
-            🔹 <strong>所含試樣質量 (完全依照您的算式)</strong><br>
-            試樣重 × (平均P%/100) × (1/V1) × (1000000/1) × (V2/V3) × V4
-        </div>
+        
+        <div class="step-box">🔹 所含試樣質量 (所有參數從下方欄位讀取)</div>
         <div class="flex-row">
             <span>試樣重量 <input type="number" id="contained_sample_w" step="any" value="0.1080"> g</span>
             <span>平均P% <input type="number" id="contained_avg_pct" step="any" value="21.13"> %</span>
@@ -303,11 +298,11 @@
             <thead><th>項目</th><th>計算公式</th><th>結果</th></thead>
             <tbody>
                 <tr><td>所含試樣質量 (μg)</td>
-                    <td class="formula">0.1080 × (21.13/100) × (1/500) × (1000000/1) × (5/250) × 10</td>
+                    <td class="formula">試樣重 × (平均P%/100) × (1/V1) × 1000000 × (V2/V3) × V4</td>
                     <td><span id="contained_mass" class="result-highlight">---</span> μg</td></tr>
             </tbody>
         </table>
-        <div class="formula">此區完全依照您給定的算式設計，各參數均可編輯，即時計算。</div>
+        <div class="formula">此區所有計算參數皆從上方輸入欄位動態讀取，修改任何數值都會即時重新計算。</div>
     </div>
 
     <!-- ========= 6. 綜合判定 ========= -->
@@ -325,9 +320,7 @@
         </table>
     </div>
 
-    <div class="footer">✨ 所有數值均可編輯，即時更新。另類計算式完全依照您給定的算式：<br>
-    (1) 查核試樣P% = ((0.192-0.004-截距)/斜率) × (1/1000000) × (250/15.0) × (1/0.1072) × 100%<br>
-    (2) 所含試樣質量 = 0.1080 × (21.13/100) × (1/500) × (1000000/1) × (5/250) × 10 = 9.128 μg</div>
+    <div class="footer">✨ 所有數值均可編輯，計算結果即時更新。另類計算式的所有參數都從對應輸入欄位動態讀取，不再有任何固定數字。</div>
 </div>
 
 <script>
@@ -415,8 +408,6 @@
         document.getElementById('slope_val').innerHTML = toStr(slope,6);
         document.getElementById('intercept_val').innerHTML = toStr(intercept,6);
         document.getElementById('r2_val').innerHTML = toStr(r2,6);
-        document.getElementById('alt_intercept_display').innerHTML = toStr(intercept,6);
-        document.getElementById('alt_slope_display').innerHTML = toStr(slope,6);
         
         let idx4=3;
         let vol4 = parseFloat(document.querySelector(`.calib-vol[data-idx='${idx4}']`).value);
@@ -439,12 +430,13 @@
         return corrected>0 ? round4(corrected / slope) : 0;
     }
 
-    const PROC_BLANK = 0.004;
     function updateAllCalculations() {
+        let procBlank = parseFloat(document.getElementById('procedural_blank_abs').value) || 0;
+        
         // 試劑空白與空白試樣
         let reagentAbs = parseFloat(document.getElementById('reagent_blank_abs_qc').value) || 0;
-        let proceduralAbs = parseFloat(document.getElementById('procedural_blank_abs').value) || 0;
         let reagentMass = (reagentAbs - intercept) / slope;
+        let proceduralAbs = parseFloat(document.getElementById('procedural_blank_abs').value) || 0;
         let proceduralMass = (proceduralAbs - intercept) / slope;
         document.getElementById('reagent_blank_result').innerHTML = !isNaN(reagentMass)? toStr(reagentMass)+' μg':'---';
         document.getElementById('procedural_blank_result').innerHTML = !isNaN(proceduralMass)? toStr(proceduralMass)+' μg':'---';
@@ -459,7 +451,7 @@
         
         // 查核試樣
         let qcAbsVal = parseFloat(document.getElementById('qc_abs').value) || 0;
-        let qcConcVal = ((qcAbsVal - PROC_BLANK - intercept) / slope) * 0.1;
+        let qcConcVal = ((qcAbsVal - procBlank - intercept) / slope) * 0.1;
         let qcTheoryVal = parseFloat(document.getElementById('qc_theory').value) || 0;
         let qcRecVal = (qcConcVal / qcTheoryVal) * 100;
         document.getElementById('qc_conc').innerHTML = toStr(qcConcVal) + ' mg/L';
@@ -470,9 +462,9 @@
         let spikeVolVal = parseFloat(document.getElementById('spike_vol').value) || 0;
         let addedMassVal = spikeConcVal * spikeVolVal;
         let origAvgAbsVal = parseFloat(document.getElementById('orig_avg_abs').value) || 0;
-        let origMassVal = getMassFromAbs(origAvgAbsVal, PROC_BLANK);
+        let origMassVal = getMassFromAbs(origAvgAbsVal, procBlank);
         let spikedAbsVal = parseFloat(document.getElementById('spiked_abs').value) || 0;
-        let spikedTotalVal = getMassFromAbs(spikedAbsVal, PROC_BLANK);
+        let spikedTotalVal = getMassFromAbs(spikedAbsVal, procBlank);
         let spikeRecVal = (!isNaN(spikedTotalVal) && !isNaN(origMassVal) && addedMassVal>0) ? ((spikedTotalVal - origMassVal) / addedMassVal) * 100 : NaN;
         document.getElementById('added_mass').innerHTML = toStr(addedMassVal) + ' μg';
         document.getElementById('orig_mass').innerHTML = !isNaN(origMassVal)? toStr(origMassVal)+' μg':'---';
@@ -486,8 +478,8 @@
         document.getElementById('total_dil').innerHTML = !isNaN(dil)? toStr(dil)+' 倍':'---';
         let sampleW = parseFloat(document.getElementById('sample_w').value) || 1;
         let abs1=parseFloat(document.getElementById('sample_abs1').value)||0, abs2=parseFloat(document.getElementById('sample_abs2').value)||0;
-        let massUg1 = getMassFromAbs(abs1, PROC_BLANK);
-        let massUg2 = getMassFromAbs(abs2, PROC_BLANK);
+        let massUg1 = getMassFromAbs(abs1, procBlank);
+        let massUg2 = getMassFromAbs(abs2, procBlank);
         document.getElementById('color_mass1').innerHTML = !isNaN(massUg1)? toStr(massUg1)+' μg':'---';
         document.getElementById('color_mass2').innerHTML = !isNaN(massUg2)? toStr(massUg2)+' μg':'---';
         let factor = (V3/V4)*(V1/V2);
@@ -504,16 +496,17 @@
         document.getElementById('avg_pct').innerHTML = !isNaN(avgPct)? toStr(avgPct)+' %':'---';
         document.getElementById('rel_dev').innerHTML = !isNaN(rd)? toStr(rd)+' %':'---';
         
-        // 另類計算式 - 查核試樣直接計算 (完全依照您給定的算式)
+        // 另類計算式 - 查核試樣 (所有參數動態讀取)
         let altAbs = parseFloat(document.getElementById('alt_qc_abs').value) || 0;
         let altBlank = parseFloat(document.getElementById('alt_blank').value) || 0;
         let altW = parseFloat(document.getElementById('alt_qc_w').value) || 1;
         let altTheory = parseFloat(document.getElementById('alt_qc_theory').value) || 1;
-        let dilFactor = 250 / 15.0;
-        document.getElementById('dil_factor_display').innerHTML = dilFactor.toFixed(4);
-        let altNumerator = (altAbs - altBlank - intercept);
-        let altMassUG = altNumerator / slope;
-        let altQcPct = altMassUG * (1/1000000) * dilFactor * (1/altW) * 100;
+        let altNum = parseFloat(document.getElementById('alt_dil_numerator').value) || 250;
+        let altDen = parseFloat(document.getElementById('alt_dil_denominator').value) || 15;
+        let altDilFactor = altNum / altDen;
+        document.getElementById('alt_dil_factor').innerHTML = toStr(altDilFactor);
+        let altMassUG = (altAbs - altBlank - intercept) / slope;
+        let altQcPct = altMassUG * (1/1000000) * altDilFactor * (1/altW) * 100;
         let altQcRec = (altQcPct / altTheory) * 100;
         document.getElementById('alt_qc_pct').innerHTML = !isNaN(altQcPct)? toStr(altQcPct)+' % P':'---';
         document.getElementById('alt_qc_recovery').innerHTML = !isNaN(altQcRec)? toStr(altQcRec)+' %':'---';
@@ -546,15 +539,17 @@
     }
 
     function updateAll() { updateStock(); updateStd(); updateCalib(); updateAllCalculations(); }
+    
     function bindEvents() {
         const ids = ['kh2po4_w','stock_vol_ml','std_take','std_dilute','color_final','reagent_blank_abs',
                      'V1','V2','V3','V4','V5','sample_w','sample_abs1','sample_abs2',
                      'reagent_blank_abs_qc','procedural_blank_abs','check_std_abs','check_std_theory',
                      'qc_abs','qc_theory','spike_conc','spike_vol','spiked_abs','orig_avg_abs',
-                     'alt_qc_abs','alt_blank','alt_qc_w','alt_qc_theory',
+                     'alt_qc_abs','alt_blank','alt_qc_w','alt_qc_theory','alt_dil_numerator','alt_dil_denominator',
                      'contained_sample_w','contained_avg_pct','contained_V1','contained_V2','contained_V3','contained_V4'];
         ids.forEach(id => { let el = document.getElementById(id); if(el) el.addEventListener('input', updateAll); });
     }
+    
     buildCalibTable();
     bindEvents();
     updateAll();
